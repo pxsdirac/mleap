@@ -219,4 +219,12 @@ object MleapProject {
       xgboostSpark % "provided",
       tensorflow % "provided")
   )
+
+  lazy val pytorch = Project(
+    id = "mleap-pytorch",
+    base = file("mleap-pytorch"),
+    dependencies = Seq(
+      runtime
+    )
+  )
 }

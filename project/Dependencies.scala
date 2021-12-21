@@ -21,6 +21,7 @@ object Dependencies {
   val hadoopVersion = "2.7.4" // matches spark version
   val platforms = "windows-x86_64,linux-x86_64,macosx-x86_64"
   val tensorflowPlatforms : Array[String] =  sys.env.getOrElse("TENSORFLOW_PLATFORMS", platforms).split(",")
+  val pytorchVersion = "1.10.0"
 
   object Compile {
     val sparkMllibLocal = "org.apache.spark" %% "spark-mllib-local" % sparkVersion excludeAll(ExclusionRule(organization = "org.scalatest"))
@@ -76,6 +77,8 @@ object Dependencies {
     val xgboostPredictorDep = "ai.h2o" % "xgboost-predictor" % "0.3.18" exclude("com.esotericsoftware.kryo", "kryo")
 
     val hadoop = "org.apache.hadoop" % "hadoop-client" % hadoopVersion
+
+    val pytorch = "org.pytorch" % "pytorch_java_only" % pytorchVersion
   }
 
   object Test {
@@ -145,6 +148,8 @@ object Dependencies {
   val benchmark = l ++= Seq(scalameter, scopt) ++ Compile.spark
 
   val databricksRuntimeTestkit = l ++= Provided.spark
+
+  val pytorch = l ++= Seq(Compile.pytorch) ++ Seq(Test.scalaTest)
 
   object DependencyHelpers {
     case class ScalaVersionDependentModuleID(modules: String => Seq[ModuleID]) {
